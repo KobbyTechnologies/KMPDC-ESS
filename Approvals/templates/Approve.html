@@ -18,27 +18,7 @@
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-2">
             <div class="col-md-12">
                 <div class="card" id="d-card">
@@ -48,6 +28,14 @@
                                 <a href="#home" class="nav-link active" data-bs-toggle="tab">Documents Pending Your
                                     Approval
                                     ({{count}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Documents You Approved
+                                    ({{countApproved}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#reject" class="nav-link" data-bs-toggle="tab">Documents You Rejected
+                                    ({{countReject}})</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -63,7 +51,7 @@
                                                 <th>Document Type</th>
                                                 <th>Sender</th>
                                                 <th>Status</th>
-                                                <th>Due_Date</th>
+                                                <th>Due Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -88,89 +76,83 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="profile">
+                                <h4 class="mt-2">Approved Documents</h4>
+                                <div class="card-body">
+                                    <table id="example"
+                                        class="display table table-striped table-bordered dt-responsive table-responsive-lg"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr id="tops">
+                                                <th id="long">Document No</th>
+                                                <th>Document Type</th>
+                                                <th>Sender</th>
+                                                <th>Status</th>
+                                                <th>Due Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for res in approved %}
+                                            <tr>
+                                                <td>{{res.Document_No_}}</td>
+                                                <td id="rap">{{res.Document_Type}}</td>
+                                                <td>{{res.Sender_ID}}</td>
+                                                <td>{{res.Status}}</td>
+                                                <td>{{res.Due_Date}}</td>
+                                                <td>
+                                                    <a href="{% url 'ApproveData' res.Document_No_ %}"
+                                                        class="btn btn-success btn-icon-text" type="button"
+                                                        data-toggle="tooltip" data-placement="top" title="View"
+                                                        style="background: #25CC88;"><i class="fa fa-table"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="reject">
+                                <h4 class="mt-2">Rejected Documents</h4>
+                                <div class="card-body">
+                                    <table id="example"
+                                        class="display table table-striped table-bordered dt-responsive table-responsive-lg"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr id="tops">
+                                                <th id="long">Document No</th>
+                                                <th>Document Type</th>
+                                                <th>Sender</th>
+                                                <th>Status</th>
+                                                <th>Due Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for res in reject %}
+                                            <tr>
+                                                <td>{{res.Document_No_}}</td>
+                                                <td id="rap">{{res.Document_Type}}</td>
+                                                <td>{{res.Sender_ID}}</td>
+                                                <td>{{res.Status}}</td>
+                                                <td>{{res.Due_Date}}</td>
+                                                <td>
+                                                    <a href="{% url 'ApproveData' res.Document_No_ %}"
+                                                        class="btn btn-success btn-icon-text" type="button"
+                                                        data-toggle="tooltip" data-placement="top" title="View"
+                                                        style="background: #25CC88;"><i class="fa fa-table"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New Imprest Requisition
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="myForm" action="{% url 'create' %}" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-2">
-                                    <label class="form-label">Travel Type</label>
-                                    <select class="form-select" name="travelType" aria-label="Default select example">
-                                        <option selected>Travel Type</option>
-                                        <option value="1">Local</option>
-                                        <option value="2">Foreign</option>
-                                    </select>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="idPassport" class="col-form-label">ID/Passport</label>
-                                    <input type="text" class="form-control" name="idPassport" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label for="payee" class="col-form-label">Payee</label>
-                                    <input type="text" class="form-control" name="payee">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label class="form-label">isImprest</label>
-                                    <select class="form-select" aria-label="Default select example" name="isImprest">
-                                        <option selected>Select isImprest</option>
-                                        <option value="True">True</option>
-                                        <option value=" ">False</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label class="form-label">isDsa</label>
-                                    <select class="form-select" aria-label="Default select example" name="isDsa">
-                                        <option selected>isDsa</option>
-                                        <option value="True">True</option>
-                                        <option value=" ">False</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-2">
-                                    <label for="purpose" class="form-label">Purpose</label>
-                                    <textarea class="form-control" name="purpose" rows="3"></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard</button>
-                    <button type="submit" id="sasa" class="btn btn-primary">Submit</button>
-                </div>
-                </form>
             </div>
         </div>
     </div>

@@ -12,7 +12,10 @@
     --primary-font: 'Gelasio', serif;
     --normal-font: 'Titillium Web', sans-serif;
 }
-
+.timer{
+    margin-top: 2rem !important;
+    margin-bottom:2rem !important;
+}
 .n-login {
     height: 100vh;
     width: 100%;

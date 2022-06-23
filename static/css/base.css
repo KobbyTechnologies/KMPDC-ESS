@@ -16,6 +16,14 @@
     --primary-font: 'Gelasio', serif;
     --normal-font: 'Titillium Web', sans-serif;
 }
+@media (max-width: 442px) {
+   .timer{
+      display: none !important;
+    }
+  }
+.avail{
+    color: red !important;
+}
 
 body {
     background: #181824;
@@ -315,4 +323,35 @@ ul.tasks::after {
     background: #eee;
     left: 20px;
     top: -68px;
+}
+
+.inbox-wid .inbox-list-item button {
+    color: #7f879c;
+    display: block;
+    padding: 14px 0px;
+    text-decoration: none !important;
+    background: none;
+    border: none;
+  }
+  .inbox-wid .inbox-list-item button:hover {
+    color: var(--green-color);
+  }
+  .inbox-wid .inbox-list-item:first-child button {
+    padding-top: 0px;
+  }
+  
+  .inbox-wid .inbox-list-item:last-child button {
+    border-bottom: 0px;
+  }
+.solution_card{
+    background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(150, 154, 179, 0.2),
+    0 5px 15px 0 rgba(136, 138, 158, 0.15);
+  border-radius: 10;
+  margin: 8px;
+  padding: 10px 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.7s;
 }

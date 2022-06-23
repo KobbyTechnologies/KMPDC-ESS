@@ -11,58 +11,38 @@
                 <span class="d-flex align-items-center purchase-popup">
                     <img src="../../../static/img/logo/fav.png" width="70px" class="img-fluid" alt="" srcset="">
                     <h2 class="text-dark font-weight-bold ml-3"> Training Requests </h2>
-                    <button class="btn btn-success align-items-center p-3"
-                        style="margin-left: auto;margin-right:0;outline: none;border: none;">{{today}}</button>
+                    <button class="btn btn-successs align-items-center p-3" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        style="margin-left: auto;margin-right:0;outline: none;border: none;"> <i
+                            class="las la-plus text-white" style="font-size:15px;"></i> New Training Request</button>
                 </span>
 
             </div>
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <i class="las la-plus"></i> New Training Request
-        </button>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-2">
             <div class="col-md-12">
                 <div class="card" id="d-card">
                     <div class="m-4">
                         <ul class="nav nav-tabs" id="myTab">
                             <li class="nav-item">
-                                <a href="#home" class="nav-link active" data-bs-toggle="tab">New Training Request
+                                <a href="#home" class="nav-link active" data-bs-toggle="tab">Open
                                     ({{count}})</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Approved Training Request
-                                    ({{counter}})</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#reject" class="nav-link" data-bs-toggle="tab">Rejected Training Request
-                                    ({{reject}})</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#pending" class="nav-link" data-bs-toggle="tab">Pending Approval
                                     ({{pend}})</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Approved
+                                    ({{counter}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#reject" class="nav-link" data-bs-toggle="tab">Rejected
+                                    ({{reject}})</a>
+                            </li>
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="home">
@@ -88,20 +68,32 @@
                                                 <td>{{res.Request_No_}}</td>
                                                 <td id="rap">{{res.Request_Date}}</td>
                                                 <td>{{res.Adhoc}}</td>
-                                                <td>{{res.Planned_Start_Date}}</td>
-                                                <td>{{res.Planned_End_Date}}</td>
-                                                <td>{{res.No__Of_Days}}</td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_Start_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_End_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.No__Of_Days}}
+                                                    {% endif %}
+                                                </td>
                                                 <td>
 
                                                     <button class="btn btn-primary" data-toggle="tooltip"
                                                         data-placement="top" title="edit" data-bs-toggle="modal"
-                                                        data-bs-target="#edit{{res.Request_No_}}"><i
+                                                        data-bs-target="#edit{{res.Request_No_}}">Edit <i
                                                             class="fas fa-edit"></i>
                                                     </button>
                                                     <a href="{% url 'TrainingDetail' res.Request_No_ %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
                                                     </a>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="edit{{res.Request_No_}}"
@@ -113,7 +105,7 @@
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="staticBackdropLabel">
                                                                         Edit
-                                                                        Training Request
+                                                                        Training Request {{res.Request_No_}}
                                                                     </h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
@@ -124,22 +116,21 @@
                                                                         action="{% url 'CreateTrainingRequest' %}"
                                                                         method="post" novalidate>
                                                                         {% csrf_token %}
-                                                                        <div class="mb-2"> <span class="w-name">
-                                                                                Training Request Header:
-                                                                            </span>
+                                                                        <div class="mb-2">
                                                                             <div class="row mt-3">
                                                                                 <div class="col-md-12">
-                                                                                    <label for="isAdhoc"
+                                                                                    <label
                                                                                         class="form-label">Adhoc</label>
-                                                                                    <select class="form-select"
-                                                                                        id="isAdhoc" name="isAdhoc"
-                                                                                        required>
+                                                                                    <select
+                                                                                        class="form-select EditAdhoc"
+                                                                                        name="isAdhoc" required>
                                                                                         <option selected disabled
                                                                                             value="">
-                                                                                            Select </option>
-                                                                                        <option value="True">True
+                                                                                            Select
                                                                                         </option>
-                                                                                        <option value="False">False
+                                                                                        <option value="True">Yes
+                                                                                        </option>
+                                                                                        <option value="False">No
                                                                                         </option>
                                                                                     </select>
                                                                                     <div class="invalid-feedback">
@@ -147,14 +138,14 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="row">
+                                                                            <div class="row trainingNeedTTRow"
+                                                                                style="display: none;">
                                                                                 <div class="col-md-12">
-                                                                                    <label for="trainingNeed"
-                                                                                        class="form-label">Training
+                                                                                    <label class="form-label">Training
                                                                                         Need</label>
-                                                                                    <select class="form-select"
-                                                                                        id="trainingNeed"
-                                                                                        name="trainingNeed" required>
+                                                                                    <select
+                                                                                        class="form-select trainingNeedTT"
+                                                                                        name="trainingNeed">
                                                                                         <option selected disabled
                                                                                             value="">
                                                                                             Select Training Need
@@ -164,72 +155,9 @@
                                                                                             {{res.Description}}</option>
                                                                                         {% endfor %}
                                                                                     </select>
-                                                                                    <div class="invalid-feedback">
-                                                                                        Please select a valid Training
-                                                                                        Need.
-                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
 
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-6">
-                                                                                    <label for=""
-                                                                                        class="form-label">Start
-                                                                                        Date:</label>
-                                                                                    <input type="date"
-                                                                                        class="form-control"
-                                                                                        name="startDate" required>
-                                                                                    <div class="invalid-feedback">
-                                                                                        Please select a valid Start
-                                                                                        Date.
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-6">
-                                                                                    <label for="" class="form-label">End
-                                                                                        Date:</label>
-                                                                                    <input type="date"
-                                                                                        class="form-control"
-                                                                                        name="endDate" required>
-                                                                                    <div class="invalid-feedback">
-                                                                                        Please select a valid End Date.
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-12">
-                                                                                    <label for="destination"
-                                                                                        class="form-label">Destination</label>
-                                                                                    <select class="form-select"
-                                                                                        id="destination"
-                                                                                        name="destination" required>
-                                                                                        <option selected disabled
-                                                                                            value="">
-                                                                                            Select Destination</option>
-                                                                                        {% for res in des %}
-                                                                                        <option
-                                                                                            value="{{res.Destination_Code}}">
-                                                                                            {{res.Destination_Code}}
-                                                                                        </option>
-                                                                                        {% endfor %}
-                                                                                    </select>'
-                                                                                    <div class="invalid-feedback">
-                                                                                        Please select a valid
-                                                                                        Destination.
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-12">
-                                                                                    <label for="description"
-                                                                                        class="form-label">Description</label>
-                                                                                    <textarea class="form-control"
-                                                                                        name="description" rows="3"
-                                                                                        required></textarea>
-                                                                                    <div class="invalid-feedback">
-                                                                                        Description can't be empty .
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
                                                                             <div class="row">
                                                                                 <div class="col-md-12">
                                                                                     <input type="hidden" name="myAction"
@@ -277,7 +205,6 @@
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                                 <th>No Of Days</th>
-                                                <th>Destination</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -287,15 +214,26 @@
                                                 <td>{{res.Request_No_}}</td>
                                                 <td id="rap">{{res.Request_Date}}</td>
                                                 <td>{{res.Adhoc}}</td>
-                                                <td>{{res.Planned_Start_Date}}</td>
-                                                <td>{{res.Planned_End_Date}}</td>
-                                                <td>{{res.No__Of_Days}}</td>
-                                                <td>{{res.Destination}}</td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_Start_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_End_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.No__Of_Days}}
+                                                    {% endif %}
+                                                </td>
                                                 <td>
                                                     <a href="{% url 'TrainingDetail' res.Request_No_ %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click To View"> View <i class="far fa-eye"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -318,7 +256,6 @@
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                                 <th>No Of Days</th>
-                                                <th>Destination</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -328,15 +265,26 @@
                                                 <td>{{res.Request_No_}}</td>
                                                 <td id="rap">{{res.Request_Date}}</td>
                                                 <td>{{res.Adhoc}}</td>
-                                                <td>{{res.Planned_Start_Date}}</td>
-                                                <td>{{res.Planned_End_Date}}</td>
-                                                <td>{{res.No__Of_Days}}</td>
-                                                <td>{{res.Destination}}</td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_Start_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_End_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.No__Of_Days}}
+                                                    {% endif %}
+                                                </td>
                                                 <td>
                                                     <a href="{% url 'TrainingDetail' res.Request_No_ %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click To View"> View <i class="far fa-eye"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -359,7 +307,6 @@
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                                 <th>No Of Days</th>
-                                                <th>Destination</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -369,15 +316,26 @@
                                                 <td>{{res.Request_No_}}</td>
                                                 <td id="rap">{{res.Request_Date}}</td>
                                                 <td>{{res.Adhoc}}</td>
-                                                <td>{{res.Planned_Start_Date}}</td>
-                                                <td>{{res.Planned_End_Date}}</td>
-                                                <td>{{res.No__Of_Days}}</td>
-                                                <td>{{res.Destination}}</td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_Start_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.Planned_End_Date}}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if res.Adhoc == False %}
+                                                    {{res.No__Of_Days}}
+                                                    {% endif %}
+                                                </td>
                                                 <td>
                                                     <a href="{% url 'TrainingDetail' res.Request_No_ %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click To View"> View <i class="far fa-eye"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -403,12 +361,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="myForm needs-validation" action="{% url 'CreateTrainingRequest' %}" method="post"
-                        novalidate>
+                    <form class="myForm" action="{% url 'CreateTrainingRequest' %}" method="post">
                         {% csrf_token %}
-                        <div class="mb-2"> <span class="w-name">
-                                Training Request Header:
-                            </span>
+                        <div class="mb-2">
                             <div class="row">
                                 <div class="col-md-12">
                                     <input type="hidden" name="myAction" value="insert">
@@ -417,20 +372,20 @@
                             <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label for="isAdhoc" class="form-label">Adhoc</label>
-                                    <select class="form-select" id="isAdhoc" name="isAdhoc" required>
+                                    <select class="form-select" id="isAdhocT" name="isAdhoc" required>
                                         <option selected disabled value="">Select </option>
-                                        <option value="True">True</option>
-                                        <option value="False">False</option>
+                                        <option value="True">Yes</option>
+                                        <option value="False">No</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         Please select a valid option.
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="trainingNeedRow" style="display: none;">
                                 <div class="col-md-12">
-                                    <label for="trainingNeed" class="form-label">Training Need</label>
-                                    <select class="form-select" id="trainingNeed" name="trainingNeed" required>
+                                    <label class="form-label">Training Need</label>
+                                    <select class="form-select" id="trainingNeed" name="trainingNeed" disabled>
                                         <option selected disabled value="">Select Training Need </option>
                                         {% for res in train %}
                                         <option value="{{res.Code}}">{{res.Description}}</option>
@@ -440,59 +395,6 @@
                                         Please select a valid Training Need.
                                     </div>
 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="" class="form-label">Start Date:</label>
-                                    <input type="date" class="form-control" name="startDate" required>
-                                    <div class="invalid-feedback">
-                                        Please select a valid Start Date.
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="" class="form-label">End Date:</label>
-                                    <input type="date" class="form-control" name="endDate" required>
-                                    <div class="invalid-feedback">
-                                        Please select a valid End Date.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="destination" class="form-label">Destination</label>
-                                    <select class="form-select" id="destination" name="destination" required>
-                                        <option selected disabled value="">Select Destination</option>
-                                        {% for res in des %}
-                                        <option value="{{res.Destination_Code}}">{{res.Destination_Code}}</option>
-                                        {% endfor %}
-                                    </select>'
-                                    <div class="invalid-feedback">
-                                        Please select a valid Destination.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="currency" class="form-label">Currency</label>
-                                    <select class="form-select" id="currency" name="currency" required>
-                                        <option selected disabled value="">Select </option>
-                                        {% for res in cur %}
-                                        <option value="{{res.Code}}">{{res.Description}} ({{res.Code}})</option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid Currency.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control" name="description" rows="3" required></textarea>
-                                    <div class="invalid-feedback">
-                                        Description can't be empty .
-                                    </div>
                                 </div>
                             </div>
 
@@ -507,5 +409,28 @@
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+        $('#isAdhocT').on('change', function () {
+            if (this.value == "True") {
+                $("#trainingNeedRow").hide(1000);
+                $('#trainingNeed').prop('disabled', true)
+            } else {
+                $("#trainingNeedRow").show(1000);
+                $('#trainingNeed').prop('disabled', false)
+            }
+        });
+        // Edit Training
+        $('.EditAdhoc').on('change', function () {
+            if (this.value == "True") {
+                $('.trainingNeedTTRow').hide(1000);
+                $('.trainingNeedTT').prop('disabled', true);
+            } else {
+                $(".trainingNeedTTRow").show(1000);
+                $('.trainingNeedTT').prop('disabled', false)
+            }
+        });
 
+    })
+</script>
 {% endblock %}

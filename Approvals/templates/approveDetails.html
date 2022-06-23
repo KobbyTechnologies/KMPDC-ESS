@@ -7,88 +7,148 @@
         <div class="d-xl-flex justify-content-between align-items-start">
             <h2 class="text-dark font-weight-bold mb-2"> {{res.Document_Type}}
             </h2>
+        </div>
+        <!--alert -->
+        {% include 'alerts.html' %}
+        <div class="row my-3">
+            <div class="col-md-3">
+                <div class="card l-bg-cherry statCard h-100">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-file"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Document No</h5>
+                        </div>
+                        <div class="row align-items-center mb-2 d-flex">
+                            <div class="col-md-12">
+                                <h2 class="d-flex align-items-center mb-0">
+                                    {{res.Document_No_}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card l-bg-blue-dark statCard h-100">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-file"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Document Type</h5>
+                        </div>
+                        <div class="row align-items-center mb-2 d-flex">
+                            <div class="col-md-12">
+                                <h2 class="d-flex align-items-center mb-0">
+                                    {{res.Document_Type}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card l-bg-green-dark statCard h-100">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Sender</h5>
+                        </div>
+                        <div class="row align-items-center mb-2 d-flex">
+                            <div class="col-md-12">
+                                <h2 class="d-flex align-items-center mb-0">
+                                    {{res.Sender_ID}}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card l-bg-orange-dark statCard h-100">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-calendar-times"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Due Date</h5>
+                        </div>
+                        <div class="row align-items-center mb-2 d-flex">
+                            <div class="col-md-12">
+                                <h2 class="d-flex align-items-center mb-0">
+                                    {{res.Due_Date}}
+                                </h2>
+                            </div>
 
-            <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
-                <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                    <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button"
-                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                            class="mdi mdi-calendar mr-1"></i>{{today}}
-                    </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <form class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Document No</label>
-                        <input type="text" class="form-control" placeholder="{{res.Document_No_}}" readonly>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Document Type</label>
-                        <input type="text" class="form-control" placeholder="{{res.Document_Type}}" readonly>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Sender</label>
-                        <input type="text" class="form-control" placeholder="{{res.Sender_ID}}" readonly>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Approver</label>
                         <input type="text" class="form-control" placeholder="{{res.Approver_ID}}" readonly>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Status</label>
                         <input type="text" class="form-control" placeholder="{{res.Status}}" readonly>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Last Date Time Modified</label>
                         <input type="text" class="form-control" placeholder="{{res.Last_Date_Time_Modified}}" readonly>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Last Modified By User ID</label>
+                    <div class="col-md-6">
+                        <label class="form-label">Last Modified By User</label>
                         <input type="text" class="form-control" placeholder="{{res.Last_Modified_By_User_ID}}" readonly>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Due Date</label>
-                        <input type="text" class="form-control" placeholder="{{res.Due_Date}}" readonly>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="form-label">Amount</label>
                         <input type="text" class="form-control" placeholder="{{res.Amount}}" readonly>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Amount__LCY_</label>
-                        <input type="text" class="form-control" placeholder="{{res.Amount__LCY_}}" readonly>
-                    </div>
                 </form>
             </div>
+            <div class="col-md-4">
+                <div class="card h-100 solution_card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            Attachments
+                        </h4>
+                        <ul class="inbox-wid list-unstyled">
+                            {% for response in file %}
+                            <form action="{% url 'getDocs' res.Document_No_ res.Table_ID %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="attachmentID" value="{{response.AuxiliaryIndex2}}">
+                                <input type="hidden" name="File_Name" value="{{response.File_Name}}">
+                                <input type="hidden" name="File_Extension" value="{{response.File_Extension}}">
+                                <li class="inbox-list-item">
+                                    <button type="submit" data-toggle="tooltip" data-placement="top"
+                                        title="Click to Download">
+                                        <div class="media" style="display: flex;">
+                                            <div class="media-body">
+                                                <h5 class="font-size-16 mb-1">
+                                                    <i class="fas fa-download me-2 text-success"></i>
+                                                    {{response.File_Name}}.{{response.File_Extension}}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </li>
+                                <hr style="margin-top:-.5rem">
+                            </form>
+                            {% empty %}
+                            <p class="text-danger">
+                                Document has no attachments <i class="las la-file-download"></i>
+                            </p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
+        {% if res.Status == 'Open' %}
         <div class="row my-3">
             <div class="d-grid gap-2 d-md-block">
                 <div style="display: inline-block;">
-                    <form id="myForm" action="{% url 'All_Approved' res.Document_No_ %} " method="post">
+                    <form id="myForm" action="{% url 'All_Approved' res.Document_No_ %}" method="post">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-12">
@@ -106,6 +166,7 @@
                     Approval</button>
             </div>
         </div>
+        {% endif %}
     </div>
     <!-- Modal -->
     <div class="modal fade" id="reject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -129,8 +190,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-2">
-                                    <label for="purpose" class="form-label">Purpose</label>
-                                    <textarea class="form-control" name="approvalComments" rows="3"></textarea>
+                                    <label for="purpose" class="form-label">Reason <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea class="form-control" name="approvalComments" rows="3" required></textarea>
                                 </div>
                             </div>
                         </div>

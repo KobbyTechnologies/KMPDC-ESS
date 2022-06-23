@@ -6,48 +6,26 @@
     <div class="content-wrapper">
         <div class="d-xl-flex justify-content-between align-items-start">
             <h2 class="text-dark font-weight-bold mb-2"> Leave Planner Details
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i
-                        class="las la-plus"></i> Leave Planner Lines</button>
             </h2>
 
             <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
                 <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                    <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button"
-                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                            class="mdi mdi-calendar mr-1"></i>{{today}}
+                    <button class="btn btn-successs  p-3 d-flex align-items-center" type="button" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"><i class="las la-plus"></i> New Leave
+                        Planner Lines
                     </button>
                 </div>
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-3">
             <div class="col-md-3">
                 <div class="card l-bg-cherry statCard h-100">
                     <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
                         <div class="mb-4">
-                            <h5 class="card-title mb-0">Employe No</h5>
+                            <h5 class="card-title mb-0">Employee No</h5>
                         </div>
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-md-12">
@@ -62,7 +40,7 @@
             <div class="col-md-3">
                 <div class="card l-bg-blue-dark statCard h-100">
                     <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                        <div class="card-icon card-icon-large"><i class="fas fa-file"></i></div>
                         <div class="mb-4">
                             <h5 class="card-title mb-0">Plan Number</h5>
                         </div>
@@ -120,7 +98,7 @@
                         <input type="text" class="form-control" placeholder="{{res.No_}}" readonly>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Date</label>
+                        <label class="form-label">Date Created</label>
                         <input type="text" class="form-control" placeholder="{{res.Date}}" readonly>
                     </div>
                 </form>

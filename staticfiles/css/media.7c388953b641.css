@@ -1,0 +1,129 @@
+@media screen and (max-width:767px) {
+    .d-text {
+        margin-top: 2rem;
+    }
+
+    .d-text h4 {
+        font-size: 2rem;
+    }
+
+    .d-items {
+        float: left;
+    }
+
+    .card2 {
+        margin-top: 1rem;
+        margin-top: 1rem;
+    }
+
+}
+
+
+@media screen and (max-width:320px) {
+    #dropdown1 {
+        width: 125px;
+        font-size: 10px;
+    }
+
+    #foo {
+        position: absolute;
+        bottom: 0;
+        width: auto;
+        right: 0;
+    }
+
+    #foo2 {
+        color: #fff;
+        padding-left: 40px;
+        margin-top: 20px;
+    }
+
+    #foo3 {
+        font-size: 10px;
+    }
+
+    #foo4 {
+        margin-right: 10px;
+        margin-left: 12px;
+        font-size: 10px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    #res_card {
+        margin: 2rem;
+        max-width: 990px;
+
+    }
+
+}
+
+@media screen and (max-width:375px) {
+    #foo {
+        position: absolute;
+        bottom: 0;
+        width: auto;
+        right: 0;
+    }
+
+    #foo2 {
+        color: #fff;
+        padding-left: 80px;
+        margin-top: 20px;
+    }
+
+    #foo3 {
+        font-size: 10px;
+    }
+
+    #foo4 {
+        margin-right: 10px;
+        margin-left: 70px;
+        font-size: 10px;
+        margin-top: 5px;
+        display: none;
+    }
+
+
+}
+
+@media screen and (max-width:425px) {
+    #foo {
+        position: absolute;
+        bottom: 0;
+        width: auto;
+        right: 0;
+    }
+
+    #foo2 {
+        color: #fff;
+        padding-left: 120px;
+        margin-top: 20px;
+    }
+
+    #foo3 {
+        font-size: 10px;
+        float: left;
+        margin-right: 90px
+    }
+
+    #foo4 {
+        margin-right: 10px;
+        font-size: 10px;
+        margin-top: 5px;
+    }
+
+    .titles {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .p-card {
+        margin-bottom: 1rem;
+    }
+
+    #dash_card {
+        margin-top: 1rem;
+    }
+}

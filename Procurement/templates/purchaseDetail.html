@@ -8,57 +8,37 @@
         <div class="d-xl-flex justify-content-between align-items-start">
             <h2 class="text-dark font-weight-bold mb-2"> Purchase Requisition
                 {% if state == 1 %}
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i
-                        class="las la-plus"></i> Requisition Lines</button>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Attachment"> <i
                         class="las la-plus"></i> Upload Attachment</button>
-                {% elif state == 3 %}
-                <form action="{% url 'FnGeneratePurchaseReport' res.No_ %}" method="post" style="display:inline-block">
-                    {% csrf_token %}
-                    <button class="btn btn-success" type="submit"> Generate
-                        Report</button>
-                </form>
-                {% else %}
-                <button class="btn btn-info"> {{res.Status}}</button>
                 {% endif %}
             </h2>
 
             <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
                 <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                    <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button"
-                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                            class="mdi mdi-calendar mr-1"></i>{{today}}
+                    {% if state == 1 %}
+                    <button class="btn btn-successs p-3 d-flex align-items-center" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" type="button"> <i class="las la-plus text-white"
+                            style="font-size:15px;"></i> Add Requisition
+                        Lines
                     </button>
+                    {% elif state == 3 %}
+                    <form action="{% url 'FnGeneratePurchaseReport' res.No_ %}" method="post"
+                        style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-successs" type="submit"> Preview
+                            Report</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-3">
             <div class="col-md-3">
                 <div class="card l-bg-cherry statCard h-100">
                     <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="card-icon card-icon-large"><i class="fas fa-file"></i></div>
                         <div class="mb-4">
                             <h5 class="card-title mb-0" id="yesa">Procurement Plan</h5>
                         </div>
@@ -145,14 +125,14 @@
             <div class="col-md-3">
                 <div class="card l-bg-orange-dark statCard h-100">
                     <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-calendar-times"></i></div>
+                        <div class="card-icon card-icon-large"><i class="fas fa-calendar-alt"></i></div>
                         <div class="mb-4">
-                            <h5 class="card-title mb-0">Consumable</h5>
+                            <h5 class="card-title mb-0">Order Date</h5>
                         </div>
                         <div class="row align-items-center mb-2 d-flex">
                             <div class="col-md-12">
                                 <h2 class="d-flex align-items-center mb-0">
-                                    {{res.Consumable}}
+                                    {{res.Order_Date}}
                                 </h2>
                             </div>
 
@@ -173,28 +153,16 @@
                         <input type="text" class="form-control" placeholder="{{res.Document_Date}}" readonly>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Order Date</label>
-                        <input type="text" class="form-control" placeholder="{{res.Order_Date}}" readonly>
-                    </div>
-                    <div class="col-md-4">
                         <label class="form-label">Employee No</label>
                         <input type="text" class="form-control" placeholder="{{res.Employee_No_}}" readonly>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Employee Name</label>
                         <input type="text" class="form-control" placeholder="{{res.Employee_Name}}" readonly>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Designation</label>
-                        <input type="text" class="form-control" placeholder="{{res.Designation}}" readonly>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Requested By</label>
                         <input type="text" class="form-control" placeholder="{{res.Requested_By}}" readonly>
-                    </div>
-                    <div class="col-md-12">
-                        <label class="form-label">Reason Description</label>
-                        <textarea class="form-control" placeholder="{{res.Reason_Description}}" readonly></textarea>
                     </div>
                 </form>
             </div>
@@ -213,7 +181,9 @@
                                     <th>Type</th>
                                     <th>Description</th>
                                     <th>Quantity</th>
+                                    {% if state == 1%}
                                     <th>Actions</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -223,7 +193,8 @@
                                     <td>{{res.Type}}</td>
                                     <td>{{res.Description}}</td>
                                     <td>{{res.Quantity}}</td>
-                                    <td>{% if state == 1%}
+                                    {% if state == 1%}
+                                    <td>
                                         <form action="{% url 'FnDeletePurchaseRequisitionLine' res.AuxiliaryIndex1 %}"
                                             method="post" style="display: inline-block;">
                                             {% csrf_token %}
@@ -232,134 +203,8 @@
                                                 data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
-                                        <button class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#trainedit{{res.Line_No_}}" data-toggle="tooltip"
-                                            data-placement="top" title="edit"><i class="fas fa-edit"></i>
-                                        </button>
-                                        <div class="modal fade" id="trainedit{{res.Line_No_}}" data-bs-backdrop="static"
-                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Edit Purchase
-                                                            Requisition
-                                                            Line {{res.Line_No_}}
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form class="myForm needs-validation"
-                                                            action="{% url 'PurchaseLines' res.AuxiliaryIndex1 %}"
-                                                            method="post" novalidate>
-                                                            {% csrf_token %}
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <input type="hidden" name="lineNo"
-                                                                        value="{{res.Line_No_}}">
-                                                                    <input type="hidden" name="myAction" value="modify">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">Procurement Plan
-                                                                        Item</label>
-                                                                    <select class="form-select" name="procPlanItem"
-                                                                        required>
-                                                                        <option selected disabled value="">Select
-                                                                            Procurement Plan Item</option>
-                                                                        {% for res in plans %}
-                                                                        <option value="{{res.Plan_Item_No}}">
-                                                                            {{res.Item_Description}}</option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                    <div class="invalid-feedback">
-                                                                        Please Select Valid Procurement Plan Item.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">Item Type</label>
-                                                                    <select class="form-select" id="itemTypes"
-                                                                        name="itemTypes" required>
-                                                                        <option selected disabled value="">Select Item
-                                                                            Type</option>
-                                                                        <option value="1">G/L</option>
-                                                                        <option value="2">Item</option>
-                                                                    </select>
-                                                                    <div class="invalid-feedback">
-                                                                        Please Select Valid Item Type.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">Item</label>
-                                                                    <select class="form-select" id="itemNo"
-                                                                        name="itemNo" required disabled>
-                                                                        <option selected disabled value="">Select Item
-                                                                        </option>
-                                                                        {% for res in items %}
-                                                                        <option value="{{res.No_}}">{{res.Description}}
-                                                                        </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                    <div class="invalid-feedback">
-                                                                        Please Select Valid Item.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">G/L Accounts</label>
-                                                                    <select class="form-select" id="gl" name="itemNo"
-                                                                        required disabled>
-                                                                        <option selected disabled value="">Select G/L
-                                                                            Account</option>
-                                                                        {% for res in gl %}
-                                                                        <option value="{{res.No_}}">{{res.Name}}
-                                                                        </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                    <div class="invalid-feedback">
-                                                                        Please Select Valid G/L Account.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="mb-2">
-                                                                        <label class="col-form-label">Quantity</label>
-                                                                        <input type="number" class="form-control"
-                                                                            name="quantity">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">Specification</label>
-                                                                    <textarea class="form-control" rows="3"
-                                                                        name="specification" required></textarea>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger"
-                                                            data-bs-dismiss="modal">Discard</button>
-                                                        <button type="submit" id="sasa"
-                                                            class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% else %}
-                                        No Action
-                                        {% endif %}
                                     </td>
-
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -448,70 +293,58 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="form-label">Procurement Plan Item</label>
-                                <select class="form-select" name="procPlanItem" required>
+                                <label class="form-label">Procurement Plan Item </label>
+                                <select class="form-select" name="procPlanItem">
                                     <option selected disabled value="">Select Procurement Plan Item</option>
                                     {% for res in plans %}
                                     <option value="{{res.Plan_Item_No}}">{{res.Item_Description}}</option>
                                     {% endfor %}
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please Select Valid Procurement Plan Item.
-                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="form-label">Item Type</label>
+                                <label class="form-label">Item Type <span class="text-danger">*</span></label>
                                 <select class="form-select" id="itemTypess" name="itemTypes" required>
                                     <option selected disabled value="">Select Item Type</option>
                                     <option value="1">G/L</option>
                                     <option value="2">Item</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please Select Valid Item Type.
-                                </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="itemNosRow" style="display: none;">
                             <div class="col-md-12">
                                 <label class="form-label">Item</label>
-                                <select class="form-select" id="itemNos" name="itemNo" required disabled>
+                                <select class="form-select" id="itemNos" name="itemNo" disabled>
                                     <option selected disabled value="">Select Item</option>
                                     {% for res in items %}
                                     <option value="{{res.No_}}">{{res.Description}}</option>
                                     {% endfor %}
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please Select Valid Item.
-                                </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="glsRow" style="display: none;">
                             <div class="col-md-12">
                                 <label class="form-label">G/L Accounts</label>
-                                <select class="form-select" id="gls" name="itemNo" required disabled>
+                                <select class="form-select" id="gls" name="itemNo" disabled>
                                     <option selected disabled value="">Select G/L Account</option>
                                     {% for res in gl %}
                                     <option value="{{res.No_}}">{{res.Name}}</option>
                                     {% endfor %}
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please Select Valid G/L Account.
-                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-2">
-                                    <label class="col-form-label">Quantity</label>
+                                    <label class="col-form-label">Quantity <span class="text-danger">*</span></label>
                                     <input type="number" class="form-control" name="quantity">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="form-label">Specification</label>
+                                <label class="form-label">Specification <span class="text-danger">*</span></label>
                                 <textarea class="form-control" rows="3" name="specification" required></textarea>
                             </div>
                         </div>
@@ -556,12 +389,18 @@
     $(document).ready(function () {
         $('#itemTypess').on('change', function () {
             if (this.value == "1") {
+                $('#itemNosRow').hide();
+                $('#glsRow').show(1000);
                 $('#gls').prop('disabled', false);
                 $('#itemNos').prop('disabled', true);
             } else if (this.value == "2") {
+                $('#itemNosRow').show(1000);
+                $('#glsRow').hide(1000);
                 $('#itemNos').prop('disabled', false);
                 $('#gls').prop('disabled', true);
             } else {
+                $('#itemNosRow').hide();
+                $('#glsRow').hide();
                 $('#gls').prop('disabled', true);
                 $('#itemNos').prop('disabled', true);
             }

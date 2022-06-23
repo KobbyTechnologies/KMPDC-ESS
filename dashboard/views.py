@@ -195,7 +195,7 @@ def dashboard(request):
             countsAPP = len(Approve)
         except requests.exceptions.ConnectionError as e:
             print(e)
-        fullname = request.session['fullname']
+        fullname =  request.session['User_ID']
         Responsibility = request.session['User_Responsibility_Center']
         E_Mail = request.session['E_Mail']
         Employee_No_ = request.session['Employee_No_']
@@ -221,8 +221,8 @@ def dashboard(request):
             "rej_repair": repair_rej, "open_store": store_open,
             "app_store": store_app, "rej_store": store_rej
             }
-    except KeyError:
-        messages.success(request,"Session Expired, Log in Again")
+    except KeyError as e:
+        messages.success(request, "Session Expired. Please Login")
         return redirect('auth')
     return render(request, 'main/dashboard.html', ctx)
 
@@ -236,6 +236,6 @@ def details(request, pk):
 
 def Canvas(request):
 
-    fullname = request.session['fullname']
+    fullname =  request.session['User_ID']
     ctx = {"fullname": fullname}
     return render(request, "offcanvas.html", ctx)

@@ -40,6 +40,7 @@
 
 .summ-cards {
     padding: 1rem;
+    height: 200px !important;
     border-bottom: 3px solid var(--red-color)
 }
 
@@ -52,6 +53,7 @@
 
 .summ-cards2 {
     padding: 1rem;
+    height: 200px !important;
     border-bottom: 3px solid var(--first-color)
 }
 
@@ -64,6 +66,7 @@
 
 .summ-cards3 {
     padding: 1rem;
+    height: 200px !important;
     border-bottom: 3px solid var(--green)
 }
 

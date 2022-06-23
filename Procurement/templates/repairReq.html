@@ -11,58 +11,38 @@
                 <span class="d-flex align-items-center purchase-popup">
                     <img src="../../../static/img/logo/fav.png" width="70px" class="img-fluid" alt="" srcset="">
                     <h2 class="text-dark font-weight-bold ml-3">Repair Request</h2>
-                    <button class="btn btn-success align-items-center p-3"
-                        style="margin-left: auto;margin-right:0;outline: none;border: none;">{{today}}</button>
+                    <button class="btn btn-successs align-items-center p-3" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        style="margin-left: auto;margin-right:0;outline: none;border: none;"><i
+                            class="las la-plus text-white" style="font-size: 15px;"></i> New Repair Request</button>
                 </span>
 
             </div>
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <i class="las la-plus"></i> New Repair Request
-        </button>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-2">
             <div class="col-md-12">
                 <div class="card" id="d-card">
                     <div class="m-4">
                         <ul class="nav nav-tabs" id="myTab">
                             <li class="nav-item">
-                                <a href="#home" class="nav-link active" data-bs-toggle="tab">Open Repair Request
+                                <a href="#home" class="nav-link active" data-bs-toggle="tab">Open
                                     ({{count}})</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Approved Repair Request
-                                    ({{counter}})</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#reject" class="nav-link" data-bs-toggle="tab">Rejected Repair Request
-                                    ({{reject}})</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#pending" class="nav-link" data-bs-toggle="tab">Pending Approval
                                     ({{pend}})</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Approved
+                                    ({{counter}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#reject" class="nav-link" data-bs-toggle="tab">Rejected
+                                    ({{reject}})</a>
+                            </li>
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="home">
@@ -92,12 +72,13 @@
                                                 <td>
                                                     <button class="btn btn-primary" data-bs-toggle="modal"
                                                         data-bs-target="#trainedit{{res.No_}}" data-toggle="tooltip"
-                                                        data-placement="top" title="edit"><i class="fas fa-edit"></i>
+                                                        data-placement="top" title="edit">Edit <i
+                                                            class="fas fa-edit"></i>
                                                     </button>
                                                     <a href="{% url 'RepairDetail' res.No_ %} "
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"
-                                                        style="background: #25CC88;"><i class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
                                                     </a>
 
                                                     <!-- Modal -->
@@ -220,8 +201,8 @@
 
                                                     <a href="{% url 'RepairDetail' res.No_ %} "
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"
-                                                        style="background: #25CC88;"><i class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
                                                     </a>
 
                                                 </td>
@@ -258,8 +239,9 @@
                                                 <td>
                                                     <a href="{% url 'RepairDetail' res.No_ %} "
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"
-                                                        style="background: #25CC88;"><i class="fa fa-table"></i></a>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -294,8 +276,9 @@
                                                 <td>
                                                     <a href="{% url 'RepairDetail' res.No_ %} "
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"
-                                                        style="background: #25CC88;"><i class="fa fa-table"></i></a>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -323,9 +306,7 @@
                     <form class="myForm needs-validation" action="{% url 'CreateRepairRequest' %}" method="post"
                         novalidate>
                         {% csrf_token %}
-                        <div class="mb-2"> <span class="w-name">
-                                Repair Request Header:
-                            </span>
+                        <div class="mb-2">
                             <div class="row">
                                 <div class="col-md-12">
                                     <input type="hidden" name="requisitionNo" value="">
@@ -338,29 +319,22 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="" class="form-label">Order Date:</label>
+                                    <label for="" class="form-label">Order Date <span
+                                            class="text-danger">*</span></label>
                                     <input type="date" name="orderDate" class="form-control" required>
-                                    <div class="invalid-feedback">
-                                        Please select a valid Order Date.
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="" class="form-label">Expected Receipt Date</label>
+                                    <label for="" class="form-label">Expected Receipt Date <span
+                                            class="text-danger">*</span></label>
                                     <input type="date" name="expectedReceiptDate" class="form-control" required>
-                                    <div class="invalid-feedback">
-                                        Please select a valid Expected Receipt Date.
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="" class="form-label">Purpose</label>
+                                    <label for="" class="form-label">Purpose <span class="text-danger">*</span></label>
                                     <textarea class="form-control" name="reason" rows="3" required></textarea>
-                                    <div class="invalid-feedback">
-                                        Purpose can't be empty.
-                                    </div>
                                 </div>
                             </div>
                         </div>

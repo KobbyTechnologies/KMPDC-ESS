@@ -9,16 +9,14 @@
             <div class="col-12">
                 <span class="d-flex align-items-center purchase-popup">
                     <img src="../../../static/img/logo/fav.png" width="70px" class="img-fluid" alt="" srcset="">
-                    <h2 class="text-dark font-weight-bold ml-3"> Dashboard </h2>
-                    <button class="btn btn-success align-items-center p-3"
-                        style="margin-left: auto;margin-right:0;outline: none;border: none;">{{today}}</button>
+                    <h2 class="text-dark font-weight-bold" style="margin-left: auto;margin-right:0;"> Dashboard </h2>
                 </span>
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card h-100 summ-cards">
+        <div class="row g-1">
+            <div class="col-md-3 mb-2">
+                <div class="card summ-cards">
                     <div class="card-title">
                         Human Resource Summary
                     </div>
@@ -40,8 +38,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
-                <div class="card h-100 summ-cards3">
+            <div class="col-md-5 mb-2">
+                <div class="card summ-cards3">
                     <div class="card-title">
                         Finance Summary
                     </div>
@@ -70,7 +68,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 summ-cards3">
+                <div class="card summ-cards3">
                     <div class="card-title">
                         Procurement Summary
                     </div>
@@ -100,7 +98,7 @@
             </div>
         </div>
         <div class="row py-4">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <div class="card p-3 h-100" style="background: #d9e3f0;">
                     <div class="card-title text-dark">
                         <h6>Approved Requests</h6>
@@ -155,7 +153,7 @@
                     </script>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <div class="card p-3 h-100" style="background: #CCCCFF;">
                     <div class="card-title text-dark">
                         <h6>Rejected Requests</h6>
@@ -226,10 +224,7 @@
                             <div class="m-4">
                                 <ul class="nav nav-tabs" id="myTab">
                                     <li class="nav-item">
-                                        <a href="#home" class="nav-link active" data-bs-toggle="tab"> My Profile</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#profile" class="nav-link" data-bs-toggle="tab">Documents
+                                        <a href="#profile" class="nav-link text-dark" data-bs-toggle="tab">Documents
                                             Pending
                                             Your
                                             Approval
@@ -237,54 +232,7 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-
-                                    <div class="tab-pane fade show active" id="home">
-                                        <div class="card-body">
-                                            <div class="muck-up" style="border-radius: 4px;">
-                                                <div class="overlay"></div>
-                                                <div class="top">
-                                                    <div class="navs">
-                                                        <span class="ion-android-menu"></span>
-                                                        <p>My Profile</p>
-                                                    </div>
-                                                    <div class="user-profile">
-                                                        <img src="../../../static/img/logo/2.png">
-                                                        <div class="user-details">
-                                                            <h4>{{full}}</h4>
-                                                            <p>{{Responsibility}}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="bottom">
-                                                    <div class="title">
-                                                        <small>Profile Information</small>
-                                                    </div>
-                                                    <form class="row">
-                                                        <div class="mb-3 col-md-6">
-                                                            <label for="exampleInputEmail1" class="form-label">Employee
-                                                                Number</label>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="{{Employee_No_}}" disabled>
-                                                        </div>
-                                                        <div class="mb-3 col-md-6">
-                                                            <label for="exampleInputEmail1" class="form-label">Account
-                                                                Number</label>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="{{Customer_No_}}" disabled>
-                                                        </div>
-                                                        <div class="mb-3 col-md-12">
-                                                            <label for="exampleInputEmail1"
-                                                                class="form-label">EMail</label>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="{{E_Mail}}" disabled>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="profile">
-                                        <h4 class="mt-2 text-dark">Documents Pending Your Approval</h4>
+                                    <div class="tab-pane show active fade" id="profile">
                                         <div class="card-body">
                                             <table id="example"
                                                 class="display table table-striped table-bordered dt-responsive table-responsive-lg"

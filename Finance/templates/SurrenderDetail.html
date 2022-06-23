@@ -6,52 +6,27 @@
     <div class="content-wrapper">
         <div class="d-xl-flex justify-content-between align-items-start">
             <h2 class="text-dark font-weight-bold mb-2"> Imprest Surrender
-                {% if state == 1 %}
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Attachment"> <i
-                        class="las la-plus"></i> Upload Attachment</button>
-                {% elif state == 3 %}
-                <form action="{% url 'FnGenerateImprestSurrenderReport' res.No_%}" method="post"
-                    style="display:inline-block">
-                    {% csrf_token %}
-                    <button class="btn btn-success" type="submit"> Generate
-                        Report</button>
-                </form>
-                {% else %}
-                <button class="btn btn-info"> <i class="las la-plus"></i> {{res.Status}}</button>
-                {% endif %}
             </h2>
-
             <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
                 <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                    <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button"
-                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                            class="mdi mdi-calendar mr-1"></i>{{today}}
+                    {% if state == 1 %}
+                    <button class="btn btn-successs p-3 d-flex align-items-center" data-bs-toggle="modal"
+                        data-bs-target="#Attachment" type="button"> <i class="las la-plus text-white"
+                            style="font-size:15px;"></i> Upload Attachment
                     </button>
+                    {% elif state == 3 %}
+                    <form action="{% url 'FnGenerateImprestSurrenderReport' res.No_%}" method="post"
+                        style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-successs" type="submit"> Preview
+                            Report</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-3">
             <div class="col-md-3">
                 <div class="card l-bg-cherry statCard h-100">
@@ -179,10 +154,6 @@
                         <input type="text" class="form-control" placeholder="{{res.Account_No_}}" readonly>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">isOnBehalf</label>
-                        <input type="text" class="form-control" placeholder="{{res.Apply_on_behalf}}" readonly>
-                    </div>
-                    <div class="col-md-4">
                         <label class="form-label">Payee</label>
                         <input type="text" class="form-control" placeholder="{{res.Payee}}" readonly>
                     </div>
@@ -190,13 +161,9 @@
                         <label class="form-label">User</label>
                         <input type="text" class="form-control" placeholder="{{res.User_Id}}" readonly>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Due_Date</label>
+                    <div class="col-md-12">
+                        <label class="form-label">Due Date</label>
                         <input type="text" class="form-control" placeholder="{{res.Due_Date}}" readonly>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Cashier</label>
-                        <input type="text" class="form-control" placeholder="{{res.Cashier}}" readonly>
                     </div>
                     <div class="col-md-12">
                         <label for="inputAddress" class="form-label">Purpose</label>
@@ -221,7 +188,9 @@
                                     <th>Actual Spent</th>
                                     <th>Remaining Amount</th>
                                     <th>Amount</th>
+                                    {% if state == 1 %}
                                     <th>Action</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -232,12 +201,13 @@
                                     <td>{{res.Actual_Spent}}</td>
                                     <td>{{res.Remaining_Amount}}</td>
                                     <td>{{res.Amount}}</td>
+                                    {% if state == 1 %}
                                     <td>
-                                        {% if state == 1 %}
+
                                         <a href="" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
                                             title="Add Amount" data-bs-toggle="modal" data-bs-target="#trainedit"><i
                                                 class="fas fa-plus"></i>
-                                            Add / Edit Amount
+                                            Add Edit Amount
                                         </a>
 
                                         <!-- Modal -->
@@ -275,9 +245,7 @@
                                                                             <input type="text" class="form-control"
                                                                                 name="actualSpent" placeholder=""
                                                                                 required>
-                                                                            <div class="invalid-feedback">
-                                                                                Enter Actual Spent.
-                                                                            </div>
+
                                                                         </div>
                                                                     </div>
 
@@ -293,10 +261,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {% else %}
-                                        No action
-                                        {% endif %}
+
                                     </td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                             </tbody>

@@ -7,59 +7,36 @@
     <div class="content-wrapper">
         <div class="d-xl-flex justify-content-between align-items-start">
             <h2 class="text-dark font-weight-bold mb-2"> Training Requests
-                {% if train_status == "Adhoc" and state == 1  %}
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i
-                        class="las la-plus"></i> Add Training Lines
-                </button>
-                {% elif state == 1 %}
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Attachment"> <i
-                        class="las la-plus"></i> Upload Attachment</button>
-                {% elif state == 3 %}
-                <form action="{% url 'FnGenerateTrainingReport' res.Request_No_ %}" method="post"
-                    style="display:inline-block">
-                    {% csrf_token %}
-                    <button class="btn btn-success" type="submit"> Generate
-                        Report</button>
-                </form>
-                {% endif %}
             </h2>
 
             <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
                 <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                    <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button"
-                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                            class="mdi mdi-calendar mr-1"></i>{{today}}
+                    {% if train_status == "Adhoc" and state == 1  %}
+                    <button class="btn btn-successs  p-3 d-flex align-items-center" type="button" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"> <i class="las la-plus"></i> Add Training Lines
                     </button>
+
+                    {% elif state == 1 %}
+                    <button class="btn btn-successs" data-bs-toggle="modal" data-bs-target="#Attachment"> <i
+                            class="fas fa-upload mr-1"></i> Upload Attachment</button>
+                    {% elif state == 3 %}
+                    <form action="{% url 'FnGenerateTrainingReport' res.Request_No_ %}" method="post"
+                        style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-successs" type="submit"> Generate
+                            Report</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-3">
             <div class="col-md-3">
                 <div class="card l-bg-cherry statCard h-100">
                     <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="card-icon card-icon-large"><i class="fas fa-file"></i></div>
                         <div class="mb-4">
                             <h5 class="card-title mb-0">Adhoc</h5>
                         </div>
@@ -76,7 +53,7 @@
             <div class="col-md-3">
                 <div class="card l-bg-blue-dark statCard h-100">
                     <div class="card-statistic-3 p-4">
-                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                        <div class="card-icon card-icon-large"><i class="fas fa-file"></i></div>
                         <div class="mb-4">
                             <h5 class="card-title mb-0">Training Status</h5>
                         </div>
@@ -143,6 +120,26 @@
                     </div>
                 </div>
             </div>
+            {% if res.Adhoc == True %}
+            <div class="col-md-3">
+                <div class="card l-bg-orange-dark statCard h-100">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-calendar-times"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Request Date</h5>
+                        </div>
+                        <div class="row align-items-center mb-2 d-flex">
+                            <div class="col-md-12">
+                                <h2 class="d-flex align-items-center mb-0">
+                                    {{res.Request_Date}}
+                                </h2>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
             <div class="col-md-3">
                 <div class="card l-bg-orange-dark statCard h-100">
                     <div class="card-statistic-3 p-4">
@@ -161,21 +158,23 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
         <div class="row">
             <div class="col-md-12">
                 <form class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Request Number</label>
                         <input type="text" class="form-control" placeholder="{{res.Request_No_}}" readonly>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Request Date</label>
-                        <input type="text" class="form-control" placeholder="{{res.Request_Date}}" readonly>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Designation</label>
                         <input type="text" class="form-control" placeholder="{{res.Designation}}" readonly>
+                    </div>
+                    {% if res.Adhoc == False %}
+                    <div class="col-md-4">
+                        <label class="form-label">Training Name</label>
+                        <input type="text" class="form-control" placeholder="{{res.Description}}" readonly>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Training Need</label>
@@ -185,22 +184,25 @@
                         <label class="form-label">Planned End Date</label>
                         <input type="text" class="form-control" placeholder="{{res.Planned_End_Date}}" readonly>
                     </div>
+
                     <div class="col-md-4">
-                        <label class="form-label">Destination</label>
-                        <input type="text" class="form-control" placeholder="{{res.Destination}}" readonly>
+                        <label class="form-label">Sponsor Type</label>
+                        <input type="text" class="form-control" placeholder="{{res.Sponsor_Type}}" readonly>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Venue</label>
+                        <input type="text" class="form-control" placeholder="{{res.Venue}}" readonly>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Currency</label>
-                        <input type="text" class="form-control" placeholder="{{res.Currency}}" readonly>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Status</label>
-                        <input type="text" class="form-control" placeholder="{{res.Status}}" readonly>
+                        <label class="form-label">Provider</label>
+                        <input type="text" class="form-control" placeholder="{{res.Provider}}" readonly>
                     </div>
                     <div class="col-md-12">
-                        <label class="form-label">Description</label>
-                        <textarea class="form-control" placeholder="{{res.Description}}" readonly></textarea>
+                        <label class="form-label">Training Objectives</label>
+                        <textarea class="form-control" placeholder="{{res.Training_Objectives}}" readonly></textarea>
                     </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -240,92 +242,8 @@
                                                 data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
-
-                                        <a href="{% url 'FnAdhocEdit' res.Source_Document_No res.No %}"
-                                            class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                                            title="edit" data-bs-toggle="modal" data-bs-target="#trainedit"><i
-                                                class="fas fa-edit"></i>
-                                        </a>
                                     </td>
                                 </tr>
-                                <!-- Modal to Edit Training Lines -->
-                                <div class="modal fade" id="trainedit" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="staticBackdropLabel">Edit Training Line
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form class="myForm needs-validation"
-                                                    action="{% url 'FnAdhocEdit' res.Source_Document_No res.No %}"
-                                                    method="post" novalidate>
-                                                    {% csrf_token %}
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label class="form-label">Training Name</label>
-                                                            <input type="text" class="form-control" name="trainingName"
-                                                                required>
-                                                            <div class="invalid-feedback">
-                                                                Enter Training Name
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label for="" class="form-label">Training Area</label>
-                                                            <input type="text" class="form-control" name="trainingArea"
-                                                                required>
-                                                            <div class="invalid-feedback">
-                                                                Enter Training Area
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label for="" class="form-label">Venue</label>
-                                                            <input type="text" class="form-control" name="venue"
-                                                                required>
-                                                            <div class="invalid-feedback">
-                                                                Enter Training Venue
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label for="" class="form-label">Provider</label>
-                                                            <input type="text" class="form-control" name="provider"
-                                                                required>
-                                                            <div class="invalid-feedback">
-                                                                Enter Training Venue
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label for="" class="form-label">Training Objectives</label>
-                                                            <textarea class="form-control" name="trainingObjectives"
-                                                                rows="3" required></textarea>
-                                                            <div class="invalid-feedback">
-                                                                Objectives Can't be Empty
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger"
-                                                    data-bs-dismiss="modal">Discard</button>
-                                                <button type="submit" id="sasa" class="btn btn-primary">Submit</button>
-                                            </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -397,10 +315,10 @@
     </div>
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">New Imprest Line
+                    <h5 class="modal-title" id="staticBackdropLabel">New Training Line
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -409,49 +327,91 @@
                         method="post" novalidate>
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-md-12">
-                                <label class="form-label">Training Name</label>
+                            <div class="col-md-6">
+                                <label class="form-label">Training Course</label>
                                 <input type="text" class="form-control" name="trainingName" required>
-                                <div class="invalid-feedback">
-                                    Enter Training Name
-                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="form-label">Field of Training</label>
+                                <input type="text" class="form-control" name="trainingArea" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="" class="form-label">Training Area</label>
-                                <input type="text" class="form-control" name="trainingArea" required>
-                                <div class="invalid-feedback">
-                                    Enter Training Area
-                                </div>
+                                <label class="form-label">Training Type</label>
+                                <select class="form-select" name="trainType" id="trainType" required>
+                                    <option selected disabled value="">Select </option>
+                                    <option value="1">Physical</option>
+                                    <option value="2">Online</option>
+                                </select>
                             </div>
                         </div>
-
-                        <div class="row">
+                        <div class="row" id="travelTypeRow" style="display: none;">
+                            <div class="col-md-12">
+                                <label class="form-label">Travel Type</label>
+                                <select class="form-select" name="travelType" id="travelType" disabled>
+                                    <option selected disabled value="">Select </option>
+                                    <option value="1">Local</option>
+                                    <option value="2">Foreign</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" id="venueRow" style="display: none">
                             <div class="col-md-12">
                                 <label for="" class="form-label">Venue</label>
-                                <input type="text" class="form-control" name="venue" required>
-                                <div class="invalid-feedback">
-                                    Enter Training Venue
-                                </div>
+                                <input type="text" class="form-control" name="venue" id="venue" disabled>
+                            </div>
+                        </div>
+                        <div class="row" id="LocaldestinationsRow" style="display:none">
+                            <div class="col-md-12">
+                                <label class="form-label">Local Destination</label>
+                                <select class="form-select" name="destination" id="destinationsLocal" disabled>
+                                    <option selected disabled value="">Select </option>
+                                    {% for res in local %}
+                                    <option value="{{res.Destination_Code}}">{{res.Destination_Code}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" id="ForegnDestinationsRow" style="display:none">
+                            <div class="col-md-12">
+                                <label class="form-label">Foregn Destination</label>
+                                <select class="form-select" name="destination" id="destinationsForeign" disabled>
+                                    <option selected disabled value="">Select </option>
+                                    {% for res in foreign %}
+                                    <option value="{{res.Destination_Code}}">{{res.Destination_Code}}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <label for="" class="form-label">Start Date:</label>
+                                <input type="date" class="form-control" name="startDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="form-label">End Date:</label>
+                                <input type="date" class="form-control" name="endDate" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Sponsor Type</label>
+                                <select class="form-select" name="sponsor" required>
+                                    <option selected disabled value="">Select </option>
+                                    <option value="1">Self Sponsored</option>
+                                    <option value="2">Organization Sponsored</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="" class="form-label">Provider</label>
                                 <input type="text" class="form-control" name="provider" required>
-                                <div class="invalid-feedback">
-                                    Enter Training Venue
-                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="" class="form-label">Training Objectives</label>
                                 <textarea class="form-control" name="trainingObjectives" rows="3" required></textarea>
-                                <div class="invalid-feedback">
-                                    Objectives Can't be Empty
-                                </div>
                             </div>
                         </div>
                 </div>
@@ -491,4 +451,36 @@
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+        $('#travelType').on('change', function () {
+            if (this.value == "1") {
+                $("#LocaldestinationsRow").show(1000);
+                $('#destinationsLocal').prop('disabled', false)
+            } else {
+                $("#ForegnDestinationsRow").show(1000);
+                $('#destinationsForeign').prop('disabled', false)
+                $("#LocaldestinationsRow").hide(1400);
+                $('#destinationsLocal').prop('disabled', true)
+            }
+        });
+        $('#trainType').on('change', function () {
+            if (this.value == "1") {
+                $("#travelTypeRow").show(1000);
+                $('#venueRow').show(1500)
+                $('#travelType').prop('disabled', false)
+                $('#venue').prop('disabled', false)
+            } else {
+                $("#travelTypeRow").hide(1000);
+                $('#travelType').prop('disabled', true)
+                $("#ForegnDestinationsRow").hide(1000);
+                $('#destinationsForeign').prop('disabled', true)
+                $("#LocaldestinationsRow").hide(1400);
+                $('#destinationsLocal').prop('disabled', true)
+                $('#venue').prop('disabled', true)
+                $('#venueRow').hide(1500)
+            }
+        });
+    })
+</script>
 {% endblock %}

@@ -6,47 +6,21 @@
     <div class="content-wrapper">
         <div class="d-xl-flex justify-content-between align-items-start">
             <h2 class="text-dark font-weight-bold mb-2"> Repair Request
-                {% if state == 1 %}
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i
-                        class="las la-plus"></i> Repair Lines</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Attachment"> <i
-                        class="las la-plus"></i> Upload Attachment</button>
-                {% else %}
-                <button class="btn btn-info"> {{res.Status}}</button>
-                {% endif %}
             </h2>
 
             <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
                 <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                    <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button"
-                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                            class="mdi mdi-calendar mr-1"></i>{{today}}
+                    {% if state == 1 %}
+                    <button class="btn btn-successs p-3 d-flex align-items-center" type="button" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"> <i class="las la-plus text-white"
+                            style="font-size: 15px;"></i> Repair Lines
                     </button>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-3">
             <div class="col-md-3">
                 <div class="card l-bg-cherry statCard h-100">
@@ -166,10 +140,6 @@
                         <input type="text" class="form-control" placeholder="{{res.Document_Date}}" readonly>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Employee No</label>
-                        <input type="text" class="form-control" placeholder="{{res.Employee_No}}" readonly>
-                    </div>
-                    <div class="col-md-4">
                         <label class="form-label">Employee Name</label>
                         <input type="text" class="form-control" placeholder="{{res.Employee_Name}}" readonly>
                     </div>
@@ -195,7 +165,9 @@
                                     <th>Description</th>
                                     <th>Book Value</th>
                                     <th>Repair No</th>
+                                    {% if state == 1 %}
                                     <th>Action</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -206,8 +178,9 @@
                                     <td>{{res.Description}}</td>
                                     <td>{{res.Book_Value}}</td>
                                     <td>{{res.AuxiliaryIndex1}}</td>
+                                    {% if state == 1 %}
                                     <td>
-                                        {% if state == 1 %}
+
                                         <form action="{% url 'FnDeleteRepairRequisitionLine' res.AuxiliaryIndex1 %}"
                                             method="post" style="display: inline-block;">
                                             {% csrf_token %}
@@ -216,76 +189,8 @@
                                                 data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
-                                        <button class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#trainedit{{res.Line_No_}}" data-toggle="tooltip"
-                                            data-placement="top" title="edit"><i class="fas fa-edit"></i>
-                                        </button>
-                                        <div class="modal fade" id="trainedit{{res.Line_No_}}" data-bs-backdrop="static"
-                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Edit Repair
-                                                            Line {{res.Line_No_}}
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form class="myForm needs-validation"
-                                                            action="{% url 'RepairLines' res.AuxiliaryIndex1 %}"
-                                                            method="post" novalidate>
-                                                            {% csrf_token %}
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <input type="hidden" name="lineNo"
-                                                                        value="{{res.Line_No_}}">
-                                                                    <input type="hidden" name="myAction" value="modify">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">Asset</label>
-                                                                    <select class="form-select" name="assetCode"
-                                                                        required>
-                                                                        <option selected disabled value="">Select Asset
-                                                                        </option>
-                                                                        {% for res in asset %}
-                                                                        <option value="{{res.No_}}">{{res.Description}}
-                                                                        </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                    <div class="invalid-feedback">
-                                                                        Please Select a Valid Asset.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">Description</label>
-                                                                    <textarea class="form-control" name="description"
-                                                                        rows="3" required></textarea>
-                                                                    <div class="invalid-feedback">
-                                                                        Enter Description.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger"
-                                                            data-bs-dismiss="modal">Discard</button>
-                                                        <button type="submit" id="sasa"
-                                                            class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {% else %}
-                                        No Actions
-                                        {% endif %}
                                     </td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -364,7 +269,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="myForm needs-validation" action="{% url 'RepairLines' res.No_ %}" method="post"
-                        novalidate>
+                        enctype="multipart/form-data" novalidate>
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-12">
@@ -374,21 +279,27 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="form-label">Asset</label>
+                                <label class="form-label">Asset <span class="text-danger">*</span></label>
                                 <select class="form-select" name="assetCode" required>
                                     <option selected disabled value="">Select Asset</option>
                                     {% for res in asset %}
                                     <option value="{{res.No_}}">{{res.Description}}</option>
                                     {% endfor %}
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please Select a Valid Asset.
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label">Attachments <span class="text-danger">*</span></label>
+                                <input class="form-control" name="attachment" type="file" multiple required>
+                                <div class="form-text">
+                                    Select single/multiple documents
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="form-label">Description</label>
+                                <label class="form-label">Description <span class="text-danger">*</span></label>
                                 <textarea class="form-control" name="description" rows="3" required></textarea>
                                 <div class="invalid-feedback">
                                     Enter Description.
@@ -405,32 +316,6 @@
         </div>
     </div>
 </section>
-<!-- Modal -->
-<div class="modal fade" id="Attachment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload Attachment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{% url 'UploadRepairAttachment' res.No_ %}" method="post" class="myForm"
-                    enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class=" mb-3">
-                        <label class="form-label">Attachments</label>
-                        <input class="form-control" name="attachment" type="file" multiple>
-                    </div>
 
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 {% endblock %}

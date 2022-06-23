@@ -33,8 +33,6 @@ urlpatterns = [
          views.FnCancelRepairApproval, name='RepairCancel'),
     path('FnDeleteRepair/<str:pk>',
          views.FnDeleteRepairRequisitionLine, name='FnDeleteRepairRequisitionLine'),
-    path('UploadRepairAttachment/<str:pk>',
-         views.UploadRepairAttachment, name='UploadRepairAttachment'),
 
 
 

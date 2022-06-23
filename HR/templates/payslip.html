@@ -9,34 +9,12 @@
                 <span class="d-flex align-items-center purchase-popup">
                     <img src="../../../static/img/logo/fav.png" width="70px" class="img-fluid" alt="" srcset="">
                     <h2 class="text-dark font-weight-bold ml-3"> Payslip </h2>
-                    <button class="btn btn-success align-items-center p-3"
-                        style="margin-left: auto;margin-right:0;outline: none;border: none;">{{today}}</button>
                 </span>
 
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row mt-5">
             <div class="col-md-12">
                 <form class="myForm needs-validation" action="{% url 'payslip' %}" method="post" novalidate>
@@ -56,7 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary my-3">Generate Payslip</button>
+                    <button type="submit" class="btn btn-primary my-3">Preview Payslip</button>
                 </form>
             </div>
         </div>

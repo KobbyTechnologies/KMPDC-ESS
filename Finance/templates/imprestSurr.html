@@ -11,59 +11,39 @@
                 <span class="d-flex align-items-center purchase-popup">
                     <img src="../../../static/img/logo/fav.png" width="70px" class="img-fluid" alt="" srcset="">
                     <h2 class="text-dark font-weight-bold ml-3"> Imprest Surrender </h2>
-                    <button class="btn btn-success align-items-center p-3"
-                        style="margin-left: auto;margin-right:0;outline: none;border: none;">{{today}}</button>
+                    <button class="btn btn-successs align-items-center p-3" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        style="margin-left: auto;margin-right:0;outline: none;border: none;"><i
+                            class="las la-plus text-white" style="font-size:15px;"></i> New Imprest Surrender</button>
                 </span>
 
             </div>
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <i class="las la-plus"></i> New Imprest Surrender
-        </button>
 
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-2">
             <div class="col-md-12">
                 <div class="card" id="d-card">
                     <div class="m-4">
                         <ul class="nav nav-tabs" id="myTab">
                             <li class="nav-item">
-                                <a href="#s-open" class="nav-link active" data-bs-toggle="tab"> Open Surrender Imprest
+                                <a href="#s-open" class="nav-link active" data-bs-toggle="tab"> Open
                                     ({{count}})</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#s-approve" class="nav-link" data-bs-toggle="tab">Appproved Surrender Imprest
-                                    ({{counter}})</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#s-reject" class="nav-link" data-bs-toggle="tab">Rejected Imprest
-                                    ({{reject}})</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#pending" class="nav-link" data-bs-toggle="tab">Pending Approval
                                     ({{pend}})</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="#s-approve" class="nav-link" data-bs-toggle="tab">Appproved
+                                    ({{counter}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#s-reject" class="nav-link" data-bs-toggle="tab">Rejected
+                                    ({{reject}})</a>
+                            </li>
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="s-open">
@@ -93,12 +73,13 @@
                                                 <td>
                                                     <button class="btn btn-primary" data-bs-toggle="modal"
                                                         data-bs-target="#trainedit{{res.No_}}" data-toggle="tooltip"
-                                                        data-placement="top" title="edit"><i class="fas fa-edit"></i>
+                                                        data-placement="top" title="edit"> Edit <i
+                                                            class="fas fa-edit"></i>
                                                     </button>
                                                     <a href="{% url 'IMPSurrender' res.No_  %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
                                                     </a>
                                                     <div class="modal fade" id="trainedit{{res.No_}}"
                                                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -214,8 +195,9 @@
                                                 <td>
                                                     <a href="{% url 'IMPSurrender' res.No_  %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i></a>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -248,8 +230,9 @@
                                                 <td>
                                                     <a href="{% url 'IMPSurrender' res.No_ %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i></a>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -282,8 +265,9 @@
                                                 <td>
                                                     <a href="{% url 'IMPSurrender' res.No_ %}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i></a>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -310,9 +294,7 @@
                 <div class="modal-body">
                     <form class="myForm needs-validation" action="{% url 'CreateSurrender' %}" method="post" novalidate>
                         {% csrf_token %}
-                        <div class="mb-2"> <span class="w-name">
-                                Imprest Surrender Header:
-                            </span>
+                        <div class="mb-2">
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="" class="form-label">Imprest Issue Document No.

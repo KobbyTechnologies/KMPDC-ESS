@@ -6,55 +6,28 @@
     <div class="content-wrapper" style="padding-bottom: 5rem;">
         <div class="d-xl-flex justify-content-between align-items-start">
             <h2 class="text-dark font-weight-bold mb-2"> Staff Claim
-                {% if state == 1 %}
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i
-                        class="las la-plus"></i> Add Claim
-                    Lines</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Attachment"> <i
-                        class="las la-plus"></i> Upload Attachment</button>
-                {% elif state == 3 %}
-                <form action="{% url 'FnGenerateStaffClaimReport' res.No_ %}" method="post"
-                    style="display:inline-block">
-                    {% csrf_token %}
-                    <button class="btn btn-success" type="submit"> Generate
-                        Report</button>
-                </form>
-                {% else %}
-                <button class="btn btn-info">{{res.Status}}</button>
-                {% endif %}
             </h2>
 
             <div class="d-sm-flex justify-content-xl-between align-items-center mb-2">
                 <div class="dropdown ml-0 ml-md-4 mt-2 mt-lg-0">
-                    <button class="btn bg-white dropdown-toggle p-3 d-flex align-items-center" type="button"
-                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
-                            class="mdi mdi-calendar mr-1"></i>{{today}}
+                    {% if state == 1 %}
+                    <button class="btn btn-successs p-3 d-flex align-items-center" type="button" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"> <i class="las la-plus"></i> Add Claim
+                        Lines
                     </button>
+                    {% elif state == 3 %}
+                    <form action="{% url 'FnGenerateStaffClaimReport' res.No_ %}" method="post"
+                        style="display:inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-successs" type="submit"> Preview
+                            Report</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <!--alert -->
-        {% if messages %}
-        {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <div class="alert alert-success d-flex align-items-center alert-dismissible alert-success" role="alert">
-            <i class="las la-check-double" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible alert-warn" role="alert">
-            <i class="las la-exclamation-triangle" style="color: white;font-size: 2rem"></i>
-            <div class="a-icon mx-2">
-                {{message}}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
+        {% include 'alerts.html' %}
         <div class="row my-3">
             <div class="col-md-3">
                 <div class="card l-bg-cherry statCard h-100">
@@ -176,14 +149,6 @@
                         <input type="text" class="form-control" placeholder="{{res.Account_Name}}" readonly>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">isOnBehalf</label>
-                        <input type="text" class="form-control" placeholder="{{res.Apply_on_behalf}}" readonly>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Payee</label>
-                        <input type="text" class="form-control" placeholder="{{res.Payee}}" readonly>
-                    </div>
-                    <div class="col-md-4">
                         <label class="form-label">User</label>
                         <input type="text" class="form-control" placeholder="{{res.User_Id}}" readonly>
                     </div>
@@ -191,7 +156,7 @@
                         <label class="form-label">Responsibility Center</label>
                         <input type="text" class="form-control" placeholder="{{res.Responsibility_Center}}" readonly>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="form-label">Imprest Surrender Doc No</label>
                         <input type="text" class="form-control" placeholder="{{res.Imprest_Surrender_Doc__No}}"
                             readonly>
@@ -219,7 +184,9 @@
                                     <th>Description</th>
                                     <th>Amount</th>
                                     <th>Expenditure Date</th>
+                                    {% if state == 1 %}
                                     <th>Action</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -230,6 +197,7 @@
                                     <td>{{res.Description}}</td>
                                     <td>{{res.Amount}}</td>
                                     <td>{{res.Expenditure_Date}}</td>
+                                    {% if state == 1 %}
                                     <td>
                                         <form action="{% url 'FnDeleteStaffClaimLine' res.No %}" method="post"
                                             style="display: inline-block;">
@@ -239,98 +207,8 @@
                                                 data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
-                                        <button class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#trainedit{{res.Line_No}}" data-toggle="tooltip"
-                                            data-placement="top" title="edit"><i class="fas fa-edit"></i>
-                                        </button>
-                                        <div class="modal fade" id="trainedit{{res.Line_No}}" data-bs-backdrop="static"
-                                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="staticBackdropLabel">Edit Staff
-                                                            Claim
-                                                            Line {{res.Line_No}}
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form class="myForm needs-validation"
-                                                            action="{% url 'ClaimLines' res.No %}" method="post"
-                                                            novalidate>
-                                                            {% csrf_token %}
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <input type="hidden" name="lineNo"
-                                                                        value="{{res.Line_No}}">
-                                                                    <input type="hidden" name="myAction" value="modify">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label class="form-label">Claim Type</label>
-                                                                    <select class="form-select" name="claimType"
-                                                                        required>
-                                                                        <option selected disabled value="">Select Claim
-                                                                            Type</option>
-                                                                        {% for res in res_type %}
-                                                                        <option value="{{res.Code}}">{{res.Description}}
-                                                                        </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                    <div class="invalid-feedback">
-                                                                        Please Select a Valid Claim Type.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label for="" class="form-label">Amount:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        name="amount" required>
-                                                                    <div class="invalid-feedback">
-                                                                        Enter Amount
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label for="" class="form-label">Expenditure
-                                                                        Date:</label>
-                                                                    <input type="date" class="form-control"
-                                                                        name="expenditureDate" required>
-                                                                    <div class="invalid-feedback">
-                                                                        Please Select Expenditure Date.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label for="" class="form-label">Expenditure
-                                                                        Description</label>
-                                                                    <textarea class="form-control"
-                                                                        name="expenditureDescription" rows="3"
-                                                                        required></textarea>
-                                                                    <div class="invalid-feedback">
-                                                                        Description Can't be Empty
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger"
-                                                            data-bs-dismiss="modal">Discard</button>
-                                                        <button type="submit" id="sasa"
-                                                            class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -410,7 +288,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="myForm needs-validation" action="{% url 'ClaimLines' res.No_ %}" method="post"
-                        novalidate>
+                        enctype="multipart/form-data" novalidate>
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-12">
@@ -420,45 +298,42 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="form-label">Claim Type</label>
+                                <label class="form-label">Claim Type <span class="text-danger">*</span></label>
                                 <select class="form-select" name="claimType" required>
                                     <option selected disabled value="">Select Claim Type</option>
                                     {% for res in res_type %}
                                     <option value="{{res.Code}}">{{res.Description}}</option>
                                     {% endfor %}
                                 </select>
-                                <div class="invalid-feedback">
-                                    Please Select a Valid Claim Type.
-                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="" class="form-label">Amount:</label>
+                                <label for="" class="form-label">Amount <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="amount" required>
-                                <div class="invalid-feedback">
-                                    Enter Amount
-                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="" class="form-label">Expenditure Date:</label>
-                                <input type="date" class="form-control" name="expenditureDate" required>
-                                <div class="invalid-feedback">
-                                    Please Select Expenditure Date.
-                                </div>
+                                <label for="" class="form-label">Expenditure Date <span
+                                        class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="Expenditure" min="1980-01-01" max=""
+                                    name="expenditureDate" required>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="" class="form-label">Expenditure Description</label>
+                                <label for="" class="form-label">Add Attachment <span
+                                        class="text-danger">*</span></label>
+                                <input class="form-control" name="attachment" type="file" multiple required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Expenditure Description <span
+                                        class="text-danger">*</span></label>
                                 <textarea class="form-control" name="expenditureDescription" rows="3"
                                     required></textarea>
-                                <div class="invalid-feedback">
-                                    Description Can't be Empty
-                                </div>
                             </div>
                         </div>
                 </div>
@@ -472,31 +347,12 @@
     </div>
 </section>
 <!-- Modal -->
-<div class="modal fade" id="Attachment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload Attachment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{% url 'UploadClaimAttachment' res.No_ %}" method="post" class="myForm"
-                    enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class=" mb-3">
-                        <label class="form-label">Attachments</label>
-                        <input class="form-control" name="attachment" type="file" multiple>
-                    </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
+<script>
+    $(document).ready(function () {
+        var utc = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+        var x = document.getElementById("Expenditure").max = utc;
+        var text = document.getElementById("Expenditure").getAttribute("max");
+    })
+</script>
 
 {% endblock %}

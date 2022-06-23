@@ -11,15 +11,14 @@
                 <span class="d-flex align-items-center purchase-popup">
                     <img src="../../../static/img/logo/fav.png" width="70px" class="img-fluid" alt="" srcset="">
                     <h2 class="text-dark font-weight-bold ml-3"> Imprest Requisition </h2>
-                    <button class="btn btn-success align-items-center p-3"
-                        style="margin-left: auto;margin-right:0;outline: none;border: none;">{{today}}</button>
+                    <button class="btn btn-successs align-items-center p-3" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        style="margin-left: auto;margin-right:0;outline: none;border: none;"><i
+                            class="las la-plus text-white" style="font-size:15px;"></i> New Imprest Requisition</button>
                 </span>
 
             </div>
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <i class="las la-plus"></i> New Imprest Requisition
-        </button>
         <!--alert -->
         {% if messages %}
         {% for message in messages %}
@@ -48,21 +47,22 @@
                     <div class="m-4">
                         <ul class="nav nav-tabs" id="myTab">
                             <li class="nav-item">
-                                <a href="#home" class="nav-link active" data-bs-toggle="tab">New Imprest
+                                <a href="#home" class="nav-link active" data-bs-toggle="tab">Open
                                     ({{count}})</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Approved Imprest
+                                <a href="#pending" class="nav-link" data-bs-toggle="tab">Pending Approval
+                                    ({{pend}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Approved
                                     ({{counter}})</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#reject" class="nav-link" data-bs-toggle="tab">Rejected Imprest
+                                <a href="#reject" class="nav-link" data-bs-toggle="tab">Rejected
                                     ({{rej}})</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#pending" class="nav-link" data-bs-toggle="tab">Pending Approval Imprest
-                                    ({{pend}})</a>
-                            </li>
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="home">
@@ -74,11 +74,11 @@
                                         <thead>
                                             <tr id="tops">
                                                 <th id="long">Imprest No</th>
-                                                <th>Date</th>
+                                                <th>Date Created</th>
                                                 <th>Imprest</th>
                                                 <th>Travel Type</th>
-                                                <th>Created By</th>
-                                                <th>Status</th>
+                                                <th>Department Code</th>
+                                                <th>Branch</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -89,12 +89,13 @@
                                                 <td id="rap">{{res.Date}}</td>
                                                 <td>{{res.Imprest}}</td>
                                                 <td>{{res.Travel_Type}}</td>
-                                                <td>{{res.User_Id}}</td>
-                                                <td>{{res.Status}}</td>
+                                                <td>{{res.Shortcut_Dimension_2_Code}}</td>
+                                                <td>{{res.Shortcut_Dimension_1_Code}}</td>
                                                 <td>
                                                     <button class="btn btn-primary" data-bs-toggle="modal"
                                                         data-bs-target="#trainedit{{res.No_}}" data-toggle="tooltip"
-                                                        data-placement="top" title="edit"><i class="fas fa-edit"></i>
+                                                        data-placement="top" title="edit">Edit <i
+                                                            class="fas fa-edit"></i>
                                                     </button>
                                                     <div class="modal fade" id="trainedit{{res.No_}}"
                                                         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -120,16 +121,16 @@
                                                                             <div class="row">
                                                                                 <div class="col-md-6">
                                                                                     <label
-                                                                                        class="form-label">isImprest</label>
+                                                                                        class="form-label">Imprest</label>
                                                                                     <select class="form-select"
                                                                                         name="isImprest" required>
                                                                                         <option selected disabled
                                                                                             value="">
-                                                                                            Select isImprest
+                                                                                            Select Option
                                                                                         </option>
-                                                                                        <option value="True">True
+                                                                                        <option value="True">yes
                                                                                         </option>
-                                                                                        <option value="False">False
+                                                                                        <option value="False">No
                                                                                         </option>
                                                                                     </select>
                                                                                     <div class="invalid-feedback">
@@ -139,24 +140,36 @@
                                                                                 </div>
                                                                                 <div class="col-md-6">
                                                                                     <label
-                                                                                        class="form-label">isDsa</label>
+                                                                                        class="form-label">DSA</label>
                                                                                     <select class="form-select"
                                                                                         name="isDsa" required>
                                                                                         <option selected disabled
-                                                                                            value="">isDsa
+                                                                                            value="">Select Option
                                                                                         </option>
-                                                                                        <option value="True">True
+                                                                                        <option value="True">Yes
                                                                                         </option>
-                                                                                        <option value="False">False
+                                                                                        <option value="False">No
                                                                                         </option>
                                                                                     </select>
-                                                                                    <div class="invalid-feedback">
-                                                                                        Please select a valid
-                                                                                        option.
-                                                                                    </div>
+
                                                                                 </div>
                                                                             </div>
-
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <label class="form-label">Travel
+                                                                                        Type <span
+                                                                                            class="text-danger">*</span></label>
+                                                                                    <select class="form-select"
+                                                                                        name="travelType" required>
+                                                                                        <option selected disabled
+                                                                                            value="">Select Option
+                                                                                        </option>
+                                                                                        <option value="1">Local</option>
+                                                                                        <option value="2">Foreign
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
                                                                             <div class="row">
                                                                                 <div class="col-md-12">
                                                                                     <input type="hidden" name="myAction"
@@ -177,9 +190,6 @@
                                                                                     <textarea class="form-control"
                                                                                         name="purpose" rows="3"
                                                                                         required></textarea>
-                                                                                    <div class="invalid-feedback">
-                                                                                        Purpose can't be empty.
-                                                                                    </div>
                                                                                 </div>
                                                                             </div>
 
@@ -197,12 +207,50 @@
                                                     </div>
                                                     <a href="{% url 'IMPDetails' res.No_%}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i>
                                                     </a>
                                                 </td>
                                             </tr>
 
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pending">
+                                <h4 class="mt-2">Pending Approval Imprest Requisitions</h4>
+                                <div class="card-body">
+                                    <table id="example"
+                                        class="display table table-striped table-bordered dt-responsive table-responsive-lg"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr id="tops">
+                                                <th id="long">Imprest No</th>
+                                                <th>Date Created</th>
+                                                <th>Imprest</th>
+                                                <th>Travel Type</th>
+                                                <th>Department Code</th>
+                                                <th>Branch</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for res in pending %}
+                                            <tr>
+                                                <td>{{res.No_}}</td>
+                                                <td id="rap">{{res.Date}}</td>
+                                                <td>{{res.Imprest}}</td>
+                                                <td>{{res.Travel_Type}}</td>
+                                                <td>{{res.Shortcut_Dimension_2_Code}}</td>
+                                                <td>{{res.Shortcut_Dimension_1_Code}}</td>
+                                                <td>
+                                                    <a href="{% url 'IMPDetails' res.No_%}"
+                                                        class="btn btn-success btn-icon-text" type="button"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i></a>
+                                                </td>
+                                            </tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>
@@ -217,11 +265,11 @@
                                         <thead>
                                             <tr id="tops">
                                                 <th id="long">Imprest No</th>
-                                                <th>Date</th>
+                                                <th>Date Created</th>
                                                 <th>Imprest</th>
                                                 <th>Travel Type</th>
-                                                <th>Created By</th>
-                                                <th>Status</th>
+                                                <th>Department Code</th>
+                                                <th>Branch</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -232,13 +280,13 @@
                                                 <td id="rap">{{res.Date}}</td>
                                                 <td>{{res.Imprest}}</td>
                                                 <td>{{res.Travel_Type}}</td>
-                                                <td>{{res.User_Id}}</td>
-                                                <td>{{res.Status}}</td>
+                                                <td>{{res.Shortcut_Dimension_2_Code}}</td>
+                                                <td>{{res.Shortcut_Dimension_1_Code}}</td>
                                                 <td>
                                                     <a href="{% url 'IMPDetails' res.No_%}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i></a>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i></a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -255,10 +303,11 @@
                                         <thead>
                                             <tr id="tops">
                                                 <th id="long">Imprest No</th>
-                                                <th>Date</th>
+                                                <th>Date Created</th>
+                                                <th>Imprest</th>
                                                 <th>Travel Type</th>
-                                                <th>Created By</th>
-                                                <th>Status</th>
+                                                <th>Department Code</th>
+                                                <th>Branch</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -269,13 +318,13 @@
                                                 <td id="rap">{{res.Date}}</td>
                                                 <td>{{res.Imprest}}</td>
                                                 <td>{{res.Travel_Type}}</td>
-                                                <td>{{res.User_Id}}</td>
-                                                <td>{{res.Status}}</td>
+                                                <td>{{res.Shortcut_Dimension_2_Code}}</td>
+                                                <td>{{res.Shortcut_Dimension_1_Code}}</td>
                                                 <td>
                                                     <a href="{% url 'IMPDetails' res.No_%}"
                                                         class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i></a>
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Click to View"> View <i class="far fa-eye"></i></a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -283,44 +332,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="pending">
-                                <h4 class="mt-2">Pending Approval Imprest Requisitions</h4>
-                                <div class="card-body">
-                                    <table id="example"
-                                        class="display table table-striped table-bordered dt-responsive table-responsive-lg"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr id="tops">
-                                                <th id="long">Imprest No</th>
-                                                <th>Date</th>
-                                                <th>Imprest</th>
-                                                <th>Travel Type</th>
-                                                <th>Created By</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for res in pending %}
-                                            <tr>
-                                                <td>{{res.No_}}</td>
-                                                <td id="rap">{{res.Date}}</td>
-                                                <td>{{res.Imprest}}</td>
-                                                <td>{{res.Travel_Type}}</td>
-                                                <td>{{res.User_Id}}</td>
-                                                <td>{{res.Status}}</td>
-                                                <td>
-                                                    <a href="{% url 'IMPDetails' res.No_%}"
-                                                        class="btn btn-success btn-icon-text" type="button"
-                                                        data-toggle="tooltip" data-placement="top" title="View"><i
-                                                            class="fa fa-table"></i></a>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -340,39 +352,40 @@
                 <div class="modal-body">
                     <form class="myForm needs-validation" action="{% url 'create' %}" method="post" novalidate>
                         {% csrf_token %}
-                        <div class="mb-2"> <span class="w-name">
-                                Imprest Requisition Header:
-                            </span>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input type="hidden" name="imprestNo" value="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="form-label">isImprest</label>
-                                    <select class="form-select" name="isImprest" required>
-                                        <option selected disabled value="">Select isImprest</option>
-                                        <option value="True">True</option>
-                                        <option value="False">False</option>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid option.
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">isDsa</label>
-                                    <select class="form-select" name="isDsa" required>
-                                        <option selected disabled value="">isDsa</option>
-                                        <option value="True">True</option>
-                                        <option value="False">False</option>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Please select a valid option.
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" name="imprestNo" value="">
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Imprest <span class="text-danger">*</span></label>
+                                <select class="form-select" name="isImprest" required>
+                                    <option selected disabled value="">Select Option</option>
+                                    <option value="True">Yes</option>
+                                    <option value="False">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">DSA <span class="text-danger">*</span></label>
+                                <select class="form-select" name="isDsa" required>
+                                    <option selected disabled value="">Select Option</option>
+                                    <option value="True">Yes</option>
+                                    <option value="False">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label">Travel Type <span class="text-danger">*</span></label>
+                                <select class="form-select" name="travelType" required>
+                                    <option selected disabled value="">Select Option</option>
+                                    <option value="1">Local</option>
+                                    <option value="2">Foreign</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <input type="hidden" name="myAction" value="insert">
@@ -380,11 +393,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label for="purpose" class="form-label">Purpose</label>
+                                <label for="purpose" class="form-label">Purpose <span
+                                        class="text-danger">*</span></label>
                                 <textarea class="form-control" name="purpose" rows="3" required></textarea>
-                                <div class="invalid-feedback">
-                                    Purpose can't be empty.
-                                </div>
+
                             </div>
                         </div>
 
