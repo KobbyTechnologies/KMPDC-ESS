@@ -2,3 +2,10 @@
 venv/
 tests.py
 notes.txt
+static/
+staticfiles/
+issues.text
+KMPDC/
+static/css/
+static/img/
+static/js/
